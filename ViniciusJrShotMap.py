@@ -48,20 +48,32 @@ goals = goal[goal.columns[0]].count().tolist()
 pitch = VerticalPitch(half=True, pitch_type='opta', pitch_color='#22312b', line_color='#ffffff', axis=True, label=True, tick=True)
 fig, ax = pitch.draw(figsize=(12, 9))
 
-plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', alpha=.7)
-plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', alpha=.7)
-plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', alpha=.7)
-plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', alpha=.7)
-plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', alpha=.7)
+plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label='Goals', alpha=.7)
+plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
+plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
+plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
+plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
 
+legend = ax.legend(loc="upper center", bbox_to_anchor= (0.14, 0.88), labelspacing=1.3, prop={'weight':'bold', 'size':11})
+legend.legendHandles[0]._sizes = [300]
+legend.legendHandles[1]._sizes = [300]
+legend.legendHandles[2]._sizes = [300]
+legend.legendHandles[3]._sizes = [300]
+legend.legendHandles[4]._sizes = [300]
 
-s='<Vinícius Júnior Career Goals>'
-highlight_textprops =[{"color": "#ffffff"}]
+bbox_pad = 2
+bboxprops = {'linewidth': 0, 'pad': bbox_pad}
+
+s='<Vinícius Júnior Career Shots>'
+highlight_textprops =[{'color': '#ffffff', 'weight': 'bold', 'bbox': {'facecolor':'#22312b', **bboxprops}}]
 fig_text(s=s,
-        x=0.27,y=0.4,
+        x=0.27,y=0.15,
         highlight_textprops=highlight_textprops,
         fontname='monospace',
         fontsize=24
 )
+
+fig_text(x=0.27, y=0.4, s="Shots:\n\nxGcum:\n\nxG per shot:\n\nGoals: ", fontsize = 12, fontweight = "bold", c='#ffffff')
+fig_text(x=0.27, y=0.4, s="<{}\n\n{}\n\n{}\n\n{}>".format(total_shots,xGcum,xG_per_shot,goals), fontsize = 12, fontweight = "bold", c='cyan')
 
 plt.show()
