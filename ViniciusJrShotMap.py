@@ -36,7 +36,7 @@ shots['Y'] = (shots['Y'])*100
 
 # New dictionaries 
 total_shots = shots[shots.columns[0]].count().tolist()
-xGcum = np.round(max(np.cumsum(shots['xG'])),3).tolist()
+xGcumsum = np.round(max(np.cumsum(shots['xG'])),3).tolist()
 xG_per_shot = np.round(max(np.cumsum(shots['xG']))/(shots[shots.columns[0]].count()),3).tolist()
 goal = shots[shots['result']=='Goal']
 shot_on_post = shots[shots['result']=='ShotOnPost']
@@ -54,7 +54,7 @@ plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498d
 plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
 plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
 
-legend = ax.legend(loc="upper center", bbox_to_anchor= (0.14, 0.88), labelspacing=1.3, prop={'weight':'bold', 'size':11})
+legend = ax.legend(loc="upper center", bbox_to_anchor= (0.14, 0.88), labelspacing=0.9, prop={'weight':'bold', 'size':11})
 legend.legendHandles[0]._sizes = [300]
 legend.legendHandles[1]._sizes = [300]
 legend.legendHandles[2]._sizes = [300]
@@ -73,7 +73,7 @@ fig_text(s=s,
         fontsize=24
 )
 
-fig_text(x=0.27, y=0.4, s="Shots:\n\nxGcum:\n\nxG per shot:\n\nGoals: ", fontsize = 12, fontweight = "bold", c='#ffffff')
-fig_text(x=0.27, y=0.4, s="<{}\n\n{}\n\n{}\n\n{}>".format(total_shots,xGcum,xG_per_shot,goals), fontsize = 12, fontweight = "bold", c='cyan')
+fig_text(x=0.42, y=0.37, s="Shots:\n\nxGcumsum:\n\nxG per shot:\n\nGoals: ", fontsize = 12, fontweight = "bold", c='#ffffff')
+fig_text(x=0.52, y=0.37, s="<{}\n\n{}\n\n{}\n\n{}>".format(total_shots,xGcumsum,xG_per_shot,goals), fontsize = 12, fontweight = "bold", c='#2ecc71')
 
 plt.show()
