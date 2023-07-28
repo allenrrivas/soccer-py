@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import mplcursors
 from highlight_text import fig_text
 from mplsoccer import VerticalPitch
 import requests
@@ -52,7 +53,7 @@ plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label=
 plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
 plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
 plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
-plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
+missed = plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
 
 legend = ax.legend(loc="upper center", bbox_to_anchor= (0.14, 0.88), labelspacing=0.9, prop={'weight':'bold', 'size':11})
 legend.legendHandles[0]._sizes = [300]
@@ -76,4 +77,14 @@ fig_text(s=s,
 fig_text(x=0.42, y=0.37, s="Shots:\n\nxGcumsum:\n\nxG per shot:\n\nGoals: ", fontsize = 12, fontweight = "bold", c='#ffffff')
 fig_text(x=0.52, y=0.37, s="<{}\n\n{}\n\n{}\n\n{}>".format(total_shots,xGcumsum,xG_per_shot,goals), fontsize = 12, fontweight = "bold", c='#2ecc71')
 
-plt.show()
+
+# print(missed_shot)
+
+# Hover Annotations
+# print(missed_shot.loc[1]['xG'])
+# mplcursors.cursor(missed).connect(
+#         "add", lambda sel: sel.annotation.set_text("Result = {}\nxG = {}\n".format(missed_shot["result"], missed_shot["xG"]))
+# )
+mplcursors.cursor(hover=True)
+
+# plt.show()
