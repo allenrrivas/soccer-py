@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.patheffects import withSimplePatchShadow
 import numpy as np
 import pandas as pd
 import mplcursors
@@ -29,8 +30,8 @@ shots['xG'] = shots['xG'].astype('float64')
 shots['X'] = shots['X'].astype('float64')
 shots['Y'] = shots['Y'].astype('float64')
 
-shots['X1'] = (shots['X'])*100
-shots['Y1'] = (shots['Y'])*100
+# shots['X1'] = (shots['X'])*100
+# shots['Y1'] = (shots['Y'])*100
 # Original X and Y
 shots['X'] = (shots['X'])*100
 shots['Y'] = (shots['Y'])*100
@@ -53,7 +54,7 @@ plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label=
 plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
 plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
 plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
-missed = plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
+plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
 
 legend = ax.legend(loc="upper center", bbox_to_anchor= (0.14, 0.88), labelspacing=0.9, prop={'weight':'bold', 'size':11})
 legend.legendHandles[0]._sizes = [300]
@@ -81,10 +82,44 @@ fig_text(x=0.52, y=0.37, s="<{}\n\n{}\n\n{}\n\n{}>".format(total_shots,xGcumsum,
 # print(missed_shot)
 
 # Hover Annotations
-# print(missed_shot.loc[1]['xG'])
-# mplcursors.cursor(missed).connect(
-#         "add", lambda sel: sel.annotation.set_text("Result = {}\nxG = {}\n".format(missed_shot["result"], missed_shot["xG"]))
-# )
-mplcursors.cursor(hover=True)
+def show_hover_panel(get_text_func=None):
+    cursor = mplcursors.cursor(
+        hover=2,  # Transient
+        annotation_kwargs=dict(
+            bbox=dict(
+                boxstyle="square,pad=0.5",
+                facecolor="white",
+                edgecolor="#ddd",
+                linewidth=0.5,
+                path_effects=[withSimplePatchShadow(offset=(1.5, -1.5))],
+            ),
+            linespacing=1.5,
+            arrowprops=None,
+        ),
+        highlight=True,
+        highlight_kwargs=dict(linewidth=2),
+    )
 
-# plt.show()
+    if get_text_func:
+        cursor.connect(
+            event="add",
+            func=lambda sel: sel.annotation.set_text(get_text_func(sel.index)),
+        )
+        
+    return cursor
+
+
+def on_add(index):
+        
+    item = shots.iloc[index]
+    parts = [
+        f"xG: {item.xG:,.2f}",
+        f"Minute: {item.minute}",
+        f"Situation: {item.situation}"
+    ]
+
+    return "\n".join(parts)
+
+show_hover_panel(on_add)
+
+plt.show()
