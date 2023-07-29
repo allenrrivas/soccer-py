@@ -45,23 +45,26 @@ shot_on_post = shots[shots['result']=='ShotOnPost']
 saved_shot = shots[shots['result']=='SavedShot']
 blocked_shot = shots[shots['result']=='BlockedShot']
 missed_shot = shots[shots['result']=='MissedShots']
+# Count Number of Goals
 goals = goal[goal.columns[0]].count().tolist()
 
 pitch = VerticalPitch(half=True, pitch_type='opta', pitch_color='#22312b', line_color='#ffffff', axis=True, label=True, tick=True)
 fig, ax = pitch.draw(figsize=(12, 9))
 
-plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label='Goals', alpha=.7)
-plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
-plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
-plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
-plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
+# plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label='Goals', alpha=.7)
+# plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
+# plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
+# plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
+# plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
+plt.scatter(shots['Y'], shots['X'], s=shots['xG']*720, c='#e74c3c', alpha=0.7)
 
-legend = ax.legend(loc="upper center", bbox_to_anchor= (0.14, 0.88), labelspacing=0.9, prop={'weight':'bold', 'size':11})
-legend.legendHandles[0]._sizes = [300]
-legend.legendHandles[1]._sizes = [300]
-legend.legendHandles[2]._sizes = [300]
-legend.legendHandles[3]._sizes = [300]
-legend.legendHandles[4]._sizes = [300]
+
+# legend = ax.legend(loc="upper center", bbox_to_anchor= (0.14, 0.88), labelspacing=0.9, prop={'weight':'bold', 'size':11})
+# legend.legendHandles[0]._sizes = [300]
+# legend.legendHandles[1]._sizes = [300]
+# legend.legendHandles[2]._sizes = [300]
+# legend.legendHandles[3]._sizes = [300]
+# legend.legendHandles[4]._sizes = [300]
 
 bbox_pad = 2
 bboxprops = {'linewidth': 0, 'pad': bbox_pad}
@@ -79,7 +82,7 @@ fig_text(x=0.42, y=0.37, s="Shots:\n\nxGcumsum:\n\nxG per shot:\n\nGoals: ", fon
 fig_text(x=0.52, y=0.37, s="<{}\n\n{}\n\n{}\n\n{}>".format(total_shots,xGcumsum,xG_per_shot,goals), fontsize = 12, fontweight = "bold", c='#2ecc71')
 
 
-# print(missed_shot)
+# print(goal)
 
 # Hover Annotations
 def show_hover_panel(get_text_func=None):
@@ -111,14 +114,28 @@ def show_hover_panel(get_text_func=None):
 
 def on_add(index):
         
-    item = shots.iloc[index]
-    parts = [
-        f"xG: {item.xG:,.2f}",
-        f"Minute: {item.minute}",
-        f"Situation: {item.situation}"
-    ]
+#     goal_i = goal.iloc[index]
+#     shot_on_post_i = shot_on_post.iloc[index]
+#     saved_shot_i = saved_shot.iloc[index]
+#     blocked_shot_i = blocked_shot.iloc[index]
+#     missed_shot_i = missed_shot.iloc[index]
+#     items = [goal_i, shot_on_post_i, saved_shot_i, blocked_shot_i, missed_shot_i]
+#     for item in items:
+#         parts = [
+#                 f"xG: {item.xG}",
+#                 f"Minute: {item.minute}",
+#                 f"Situation: {item.situation}"
+#         ]
 
-    return "\n".join(parts)
+        item = shots.iloc[index]
+        parts = [
+                f"xG: {item.xG:,.2f}",
+                f"Minute: {item.minute}",
+                f"Situation: {item.situation}"
+        ]
+
+
+        return "\n".join(parts)
 
 show_hover_panel(on_add)
 
