@@ -17,8 +17,10 @@ def playerShots():
     
     if len(sys.argv) > 1:
         url = sys.argv[1]
+        shot_type = sys.argv[2]
     else:
         url = 'https://understat.com/player/7008'
+        shot_type = "Goals"
         
     link = url
     res = requests.get(link)
@@ -63,12 +65,18 @@ def playerShots():
     pitch = VerticalPitch(half=True, pitch_type='opta', pitch_color='#22312b', line_color='#ffffff', axis=False)
     fig, ax = pitch.draw(figsize=(12, 9))
 
-    shots_x = plt.scatter(shots['Y'], shots['X'], s=shots['xG']*720, c='#e74c3c', alpha=0.7)
-    # goal_x = plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label='Goals', alpha=.7)
-    # shot_on_post_x = plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
-    # saved_shot_x = plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
-    # blocked_shot_x = plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
-    # missed_shot_x = plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
+    # shots_x = plt.scatter(shots['Y'], shots['X'], s=shots['xG']*720, c='#e74c3c', alpha=0.7)
+    
+    if shot_type == "Goals":
+        goal_x = plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label='Goals', alpha=.7)
+    elif shot_type == "ShotsOnPost":
+        shot_on_post_x = plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
+    elif shot_type == "SavedShots":
+        saved_shot_x = plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
+    elif shot_type == "BlockedShots":
+        blocked_shot_x = plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
+    elif shot_type == "MissedShots":
+        missed_shot_x = plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
 
     # shots.plot(ax=ax[0,0])
 
