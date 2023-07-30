@@ -33,7 +33,7 @@ def playerShots():
     json_data = json_data.encode('utf8').decode('unicode_escape')
     data = json.loads(json_data)
     
-    #Get name of player from <title>
+    # Get name of player from <title>
     name = soup.title.string
     name_list = name.split()
 
