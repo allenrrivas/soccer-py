@@ -19,6 +19,7 @@ def playerShots():
         url = sys.argv[1]
         shot_type = sys.argv[2]
     else:
+        # Use Vinicius Jr. as a fall back
         url = 'https://understat.com/player/7008'
         shot_type = "Goals"
         
@@ -65,7 +66,7 @@ def playerShots():
     blocked_shot_df = shots[shots['result']=='BlockedShot']
     # Get all missed shots (Dataframe)
     missed_shot_df = shots[shots['result']=='MissedShots']
-    # Count Number of Goals
+    # Count number of goals
     goals = goal_df[goal_df.columns[0]].count().tolist()
 
     pitch = VerticalPitch(half=True, pitch_type='opta', pitch_color='#22312b', line_color='#ffffff', axis=False)
