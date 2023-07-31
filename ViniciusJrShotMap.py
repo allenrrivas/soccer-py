@@ -54,13 +54,19 @@ def playerShots():
     total_shots = shots[shots.columns[0]].count().tolist()
     xGcumsum = np.round(max(np.cumsum(shots['xG'])),3).tolist()
     xG_per_shot = np.round(max(np.cumsum(shots['xG']))/(shots[shots.columns[0]].count()),3).tolist()
-    goal = shots[shots['result']=='Goal']
-    shot_on_post = shots[shots['result']=='ShotOnPost']
-    saved_shot = shots[shots['result']=='SavedShot']
-    blocked_shot = shots[shots['result']=='BlockedShot']
-    missed_shot = shots[shots['result']=='MissedShots']
+    
+    # Get all Goals (Dataframe)
+    goal_df = shots[shots['result']=='Goal']
+    # Get all Shots on post (Dataframe)
+    shot_on_post_df = shots[shots['result']=='ShotOnPost']
+    # Get all saved shots (Dataframe)
+    saved_shot_df = shots[shots['result']=='SavedShot']
+    # Get all blocked shots (Dataframe)
+    blocked_shot_df = shots[shots['result']=='BlockedShot']
+    # Get all missed shots (Dataframe)
+    missed_shot_df = shots[shots['result']=='MissedShots']
     # Count Number of Goals
-    goals = goal[goal.columns[0]].count().tolist()
+    goals = goal_df[goal_df.columns[0]].count().tolist()
 
     pitch = VerticalPitch(half=True, pitch_type='opta', pitch_color='#22312b', line_color='#ffffff', axis=False)
     fig, ax = pitch.draw(figsize=(12, 9))
@@ -68,15 +74,15 @@ def playerShots():
     # shots_x = plt.scatter(shots['Y'], shots['X'], s=shots['xG']*720, c='#e74c3c', alpha=0.7)
     
     if shot_type == "Goals":
-        goal_x = plt.scatter(goal['Y'], goal['X'], s=(goal["xG"]* 720) + 100, c='#2ecc71', label='Goals', alpha=.7)
+        goal_ax = plt.scatter(goal_df['Y'], goal_df['X'], s=(goal_df["xG"]* 720) + 100, c='#2ecc71', label='Goals', alpha=.7)
     elif shot_type == "ShotsOnPost":
-        shot_on_post_x = plt.scatter(shot_on_post['Y'], shot_on_post['X'], s=shot_on_post["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
+        shot_on_post_ax = plt.scatter(shot_on_post_df['Y'], shot_on_post_df['X'], s=shot_on_post_df["xG"]* 720, c='#f1c40f', label='Shots On Post', alpha=.7)
     elif shot_type == "SavedShots":
-        saved_shot_x = plt.scatter(saved_shot['Y'], saved_shot['X'], s=saved_shot["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
+        saved_shot_ax = plt.scatter(saved_shot_df['Y'], saved_shot_df['X'], s=saved_shot_df["xG"]* 720, c='#3498db', label='Saved Shots', alpha=.7)
     elif shot_type == "BlockedShots":
-        blocked_shot_x = plt.scatter(blocked_shot['Y'], blocked_shot['X'], s=blocked_shot["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
+        blocked_shot_ax = plt.scatter(blocked_shot_df['Y'], blocked_shot_df['X'], s=blocked_shot_df["xG"]* 720, c='#9b59b6', label='Blocked Shots', alpha=.7)
     elif shot_type == "MissedShots":
-        missed_shot_x = plt.scatter(missed_shot['Y'], missed_shot['X'], s=(missed_shot["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
+        missed_shot_ax = plt.scatter(missed_shot_df['Y'], missed_shot_df['X'], s=(missed_shot_df["xG"]* 720), c='#e74c3c', label='Missed Shots', alpha=.7)
 
     # shots.plot(ax=ax[0,0])
 
