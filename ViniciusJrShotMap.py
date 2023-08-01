@@ -47,7 +47,7 @@ def playerShots():
     shots['X'] = shots['X'].astype('float64')
     shots['Y'] = shots['Y'].astype('float64')
 
-    # Original X and Y
+    # Multiple X and Y by 100, to fit axes
     shots['X'] = (shots['X'])*100
     shots['Y'] = (shots['Y'])*100
 
