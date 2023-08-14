@@ -108,7 +108,8 @@ def playerShots():
 
     fig_text(x=0.42, y=0.37, s="Shots:\n\nxGcumsum:\n\nxG per shot:\n\nGoals: ", fontsize = 12, fontweight = "bold", c='#ffffff')
     fig_text(x=0.52, y=0.37, s="<{}\n\n{}\n\n{}\n\n{}>".format(total_shots,xGcumsum,xG_per_shot,goals), fontsize = 12, fontweight = "bold", c='#2ecc71')
-
+    
+    plt.show()
 
 # Hover Annotations
 # def show_hover_panel(get_text_func=None):
@@ -153,4 +154,3 @@ def playerShots():
 
 if __name__ == "__main__":
     playerShots()
-    plt.show()
